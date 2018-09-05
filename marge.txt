@@ -1,0 +1,139 @@
+#include <iostream>
+using namespace std;
+
+// Node class
+class Node {
+ public: int data;
+    Node *next;
+
+    Node(int d) {
+            data=d;
+            next=NULL;
+    }
+
+};
+class LinkedList{
+    Node *start;
+public:
+    LinkedList()
+    {
+        start=NULL;
+    }
+    void printlist()
+  {
+      if(start==NULL){
+        cout<<"list empty"<<endl;
+        return;
+      }
+      Node *temp=start;
+      while(2){
+        cout<<temp->data<<" ";
+        if(temp->next==NULL)
+            break;
+        temp=temp->next;
+      }
+      cout<<endl;
+  }
+void   sortedInsert(int data)
+    {
+        Node *flag = new Node(data);
+
+        if(start == NULL)
+        {
+            start = flag;
+            return;
+        }
+
+        if(data < start->data)
+        {
+            flag->next = start;
+            start = flag;
+            return;
+        }
+
+        Node *temp = start;
+
+        while(1)
+        {
+            if(temp->next == NULL)
+            {
+                flag->next = NULL;
+                temp->next = flag;
+                break;
+            }
+
+            if(data < temp->next->data)
+            {
+                flag->next = temp->next;
+                temp->next = flag;
+                break;
+            }
+            temp = temp->next;
+        }
+
+    }
+    void addNote(int d){
+        Node *newNode=new Node(d);
+        if(start==NULL){
+            start=newNode;
+            return;
+        }
+        Node *temp=start;
+        while(2){
+            if(temp->next==NULL){
+                temp->next=newNode;
+                return;
+            }
+            temp=temp->next;
+        }
+    }
+   void deleteNote(){
+        Node *temp=start;
+
+if(start!=NULL){
+	start=start->next;
+	delete temp;
+	}
+	return;
+    }
+};
+int main(){
+    int x;
+    LinkedList l,l2;
+     int i,j,n;
+cout<<"how many number"<<endl;
+cin>>n;
+cout<<"Enter numbers:"<<endl;
+for(i=0;i<n;i++)
+
+{
+    cin>>j;
+     l.addNote(j);
+
+}
+cout<<"first link list:"<<endl;
+    l.printlist();
+cout<<"how many number"<<endl;
+cin>>n;
+cout<<"Enter numbers:"<<endl;
+for(i=0;i<n;i++)
+
+{
+    cin>>j;
+     l2.addNote(j);
+     l.sortedInsert(j);
+}
+cout<<"second link list:"<<endl;
+    l2.printlist();
+cout<<"Updated first link list:"<<endl;
+    l.printlist();
+for(i=0;i<n;i++)
+
+{
+   l2.deleteNote();}
+
+
+    l2.printlist();
+     return 0;
+    }
+

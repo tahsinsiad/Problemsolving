@@ -1,0 +1,262 @@
+#include "iostream"
+#include "stack"
+#include "queue"
+
+using namespace std;
+class TreeNode{
+public:
+	int data;
+	TreeNode *leftChild;
+	TreeNode *rightChild;
+	TreeNode(int d)
+	{
+		data = d;
+		leftChild = NULL;
+		rightChild = NULL;
+	}
+};
+
+class Tree{
+public:
+	TreeNode* root;
+
+	Tree()
+	{
+		root = NULL;
+	}
+
+
+	void BFSTraversal(TreeNode* node)
+	{
+		if (node == NULL)
+			return;
+
+		queue<TreeNode *> treeQueue;
+		treeQueue.push(node);
+
+		while (!treeQueue.empty())
+		{
+			TreeNode* temp = treeQueue.front();
+			cout << temp->data << " ";
+			treeQueue.pop();
+
+			if (temp->leftChild)
+				treeQueue.push(temp->leftChild);
+
+			if (temp->rightChild)
+				treeQueue.push(temp->rightChild);
+
+		}
+
+	}
+
+
+	void preOrderRecursive(TreeNode* node)
+	{
+
+		if (node)
+		{
+			cout << node->data << " ";
+			preOrderRecursive(node->leftChild);
+			preOrderRecursive(node->rightChild);
+		}
+
+	}
+
+	void preOrderIterative(TreeNode* node)
+	{
+		if (node == NULL)
+			return;
+
+		stack<TreeNode *> treeStack;
+		treeStack.push(node);
+
+		while (!treeStack.empty())
+		{
+			TreeNode* temp = treeStack.top();
+			cout << temp->data << " ";
+			treeStack.pop();
+
+			if (temp->rightChild)
+				treeStack.push(temp->rightChild);
+
+			if (temp->leftChild)
+				treeStack.push(temp->leftChild);
+
+		}
+
+
+	}
+
+
+	void inOrderRecursive(TreeNode* node)
+	{
+		if (node == NULL)
+			return;
+
+		inOrderRecursive(node->leftChild);
+		cout << node->data << " ";
+		inOrderRecursive(node->rightChild);
+
+	}
+
+	void inOrderIterative(TreeNode* node)
+	{
+		if (node == NULL)
+			return;
+
+		stack<TreeNode *> treeStack;
+
+		TreeNode* currentNode = node;
+
+		while (!treeStack.empty() || currentNode != NULL)
+		{
+
+			if (currentNode != NULL)
+			{
+				treeStack.push(currentNode);
+				currentNode = currentNode->leftChild;
+			}
+			else
+			{
+				currentNode = treeStack.top();
+				cout << currentNode->data << " ";
+				treeStack.pop();
+				currentNode = currentNode->rightChild;
+			}
+
+		}
+	}
+
+	void postOrderRecursive(TreeNode* node)
+	{
+		if (node == NULL)
+			return;
+		postOrderRecursive(node->leftChild);
+		postOrderRecursive(node->rightChild);
+		cout << node->data << " ";
+	}
+
+	void postOrderIterative(TreeNode* node)
+	{
+		if (node == NULL)
+			return;
+
+		stack<TreeNode *> tempStack;
+		stack<TreeNode *> finalStack;
+
+		tempStack.push(node);
+
+		while (!tempStack.empty())
+		{
+
+			TreeNode* currentNode = tempStack.top();
+			tempStack.pop();
+
+			finalStack.push(currentNode);
+
+			if (currentNode->leftChild)
+				tempStack.push(currentNode->leftChild);
+
+			if (currentNode->rightChild)
+				tempStack.push(currentNode->rightChild);
+
+		}
+
+
+		while (!finalStack.empty())
+		{
+			cout << finalStack.top()->data << " ";
+			finalStack.pop();
+		}
+
+	}
+
+	bool BSTinsert(TreeNode * startnode, int value) {
+		if (root == NULL)
+		{
+			root = new TreeNode(value);
+			return true;
+		}
+
+		if (startnode->data == value)
+			return false;
+
+		else if (value < startnode->data) {
+			if (startnode->leftChild == NULL) {
+				startnode->leftChild = new TreeNode(value);
+				return true;
+			}
+			else
+				return BSTinsert(startnode->leftChild,value);
+		}
+		else if (value > startnode->data) {
+			if (startnode->rightChild == NULL) {
+				startnode->rightChild = new TreeNode(value);
+				return true;
+			}
+			else
+				return BSTinsert(startnode->rightChild, value);
+		}
+		return false;
+	}
+
+};
+
+int main()
+{
+
+	/*TreeNode* n1 = new TreeNode(1);
+	TreeNode* n2 = new TreeNode(2);
+	TreeNode* n3 = new TreeNode(3);
+	TreeNode* n4 = new TreeNode(4);
+	TreeNode* n5 = new TreeNode(5);
+
+	n1->leftChild = n2;
+
+
+	n1->rightChild = n3;
+
+	n2->leftChild = n4;
+	n2->rightChild = n5;*/
+
+	Tree t;
+	//t.root = n1;
+	t.BSTinsert(t.root, 2);
+	t.BSTinsert(t.root, 1);
+	t.BSTinsert(t.root, 4);
+	t.BSTinsert(t.root, 5);
+
+
+	cout << "Preorder Recursive:" << endl;
+	t.preOrderRecursive(t.root);
+	cout << endl;
+
+	cout << "Preorder Iterative:" << endl;
+	t.preOrderIterative(t.root);
+	cout << endl;
+
+	cout << "Inorder Recursive:" << endl;
+	t.inOrderRecursive(t.root);
+	cout << endl;
+
+	cout << "Inorder Iterative:" << endl;
+	t.inOrderIterative(t.root);
+	cout << endl;
+
+	cout << "Postorder Recursive:" << endl;
+	t.postOrderRecursive(t.root);
+	cout << endl;
+
+	cout << "Postorder Iterative:" << endl;
+	t.postOrderIterative(t.root);
+	cout << endl;
+
+	cout << "BFS Traversal:" << endl;
+	t.BFSTraversal(t.root);
+	cout << endl;
+
+
+	return 0;
+}
+
